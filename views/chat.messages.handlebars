@@ -2,38 +2,38 @@
   <h5>View Chat</h5>
   <hr />
   <div class="row d-flex">
-    <div class="col-3">
-      <table class="table table-sm " id="tableUsers">
-        <thead>
-          <tr>
-            <th scope="col">Usuarios unidos al chat</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{!-- {{#each data}} --}}
-            <tr id="celda">
-              {{!-- <td>juan</td> {{!-- {{this.title}} --}}
-            </tr>
-          {{!-- {{/each}} --}}
-        </tbody>
-      </table>
+    <div class="col-12">
+      <form name="formMessage" id="formMessage">
+        <div>
+          <textarea
+            class="form-control"
+            id="message"
+            name="message"
+            rows="3"
+          ></textarea>
+          <button type="submit" class="btn btn-primary mt-2" id="submitMessages">Enviar mensaje</button>
+        <div>
+      </form>
     </div>
-    <div class="col-9">
-      <table class="table table-sm " id="tableUsers">
+    <div class="col-12 mt-3">
+      <table class="table table-sm" id="tableUsers">
         <thead>
           <tr>
             <th scope="col">Mensajes</th>
           </tr>
+          
         </thead>
         <tbody>
           {{!-- {{#each data}} --}}
-            <tr id="celda">
-              {{!-- <td>juan</td> {{!-- {{this.title}} --}}
-            </tr>
+          <tr id="celda">
+            {{!-- <td>juan</td> {{!-- {{this.title}} --}}
+          </tr>
           {{!-- {{/each}} --}}
         </tbody>
       </table>
+
       
+
     </div>
   </div>
 </div>

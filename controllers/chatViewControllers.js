@@ -19,7 +19,7 @@ const chatLoginPost = async (req, res) => {
     try { 
       const userEmail = req.body;
       console.log(userEmail.email)
-      await manager.postMessages(userEmail)
+      await manager.postUserLogin(userEmail)
       return res.redirect(`/chat.handlebars/messages?user=${userEmail.email}`) 
 
     } catch (e) {
