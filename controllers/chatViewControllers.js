@@ -3,7 +3,7 @@ const { ChatManager } = require("../dao/chatManagerDb");
 const pagesFn = (io) => {
 //instacio el Cartmanager
 //const manager = new CartManager("db/carts.json");
-const manager = new ChatManager();
+const manager = new ChatManager(io);
 
 const chatLogin = async (req, res) => {
   try {
@@ -18,9 +18,9 @@ const chatLogin = async (req, res) => {
 const chatLoginPost = async (req, res) => {
     try { 
       const userEmail = req.body;
-      console.log(userEmail)
+      console.log(userEmail.email)
       await manager.postMessages(userEmail)
-      return res.redirect("/chat.handlebars/messages")
+      return res.redirect(`/chat.handlebars/messages?user=${userEmail.email}`) 
 
     } catch (e) {
       console.log(e);
@@ -31,7 +31,7 @@ const chatLoginPost = async (req, res) => {
 //get ProductById
 const chat = async (req, res) => {
   try{
-    
+    return res.render("chat.messages.handlebars")
     
   } catch(e) {
     console.log(e);

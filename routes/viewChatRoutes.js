@@ -12,7 +12,7 @@ const viewChatRoutesFn = ((io)=>{
 
     router.post("/chat.handlebars", chatLoginPost);
 
-    router.get("/chat.handlebars/chat", chat);
+    router.get("/chat.handlebars/messages", chat);
 
     return router;
     

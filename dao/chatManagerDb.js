@@ -18,6 +18,22 @@ class ChatManager {
     // ex();
   }
 
+  async getUsers() {
+    try {
+      const users = await messagesModel.find()
+      console.log(users.email)
+      return
+      
+      //return cartModel.find();
+    } catch (e) {
+      console.log("Error al leer el archivo Carts");
+      return {
+        status: 500,
+        respuesta: "Error desconocido al leer el archivo Carts",
+      };
+    }
+  }
+
   async getMessages() {
     try {
       //let carts = await fs.promises.readFile(this.path, "utf-8");
@@ -35,8 +51,10 @@ class ChatManager {
   async postMessages(data) {
     try {
       console.log(data.email)
-      io.emit("unido",`${data.mail} se a unido al chat`)
+      //console.log(this.io)
+      this.io.emit("unido",JSON.stringify(data.email))
       await messagesModel.create(data)
+      //console.log("hola")
       return
     } catch (e) {
       console.log("Error al leer el archivo Carts");
