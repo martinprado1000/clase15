@@ -4,8 +4,8 @@ console.log(socket);
 const submitUserForm = document.getElementById("formUser");
 const btnSubmitUser = document.getElementById("submitUser");
 const emailInput = document.getElementById("email");
-const submitForm = document.getElementById("formMessage");
-const btnSubmitMessages = document.getElementById("submitMessages");
+const submitMessageForm = document.getElementById("formMessage");
+const btnSubmitMessage = document.getElementById("submitMessage");
 const messageInput = document.getElementById("message");
 
 // Obtengo los datos del formulario User Login
@@ -20,12 +20,13 @@ const getUser = () => {
 // Obtengo los datos del formulario Messages
 const getMessage = () => {
   const message = messageInput.value;
-  // const messages = {
-  //   message
-  // };
-  return message;
+  const messages = {
+    message,
+  };
+  return messages;
 };
 
+// Envio de alerta de unido al chat
 socket.on("joinUser", (newUser) => {
   const user = JSON.parse(newUser);
   Swal.fire({
@@ -36,34 +37,53 @@ socket.on("joinUser", (newUser) => {
     toast: true,
     position: "top-end",
   });
-  
   //   const table = document.getElementById("tableUsers");
   //   const newRow = table.insertRow();
   //   const user = newRow.insertCell();
   //   user.textContent = newUser;
 });
+
+// Redirecciono al chat al usuario recien logueado.
 socket.on("redirect", (newUser) => {
-    window.location.href = "http://localhost:8080/chat.handlebars/messages";
+  window.location.href = "http://localhost:8080/chat.handlebars/messages";
+//   var obj = qs.parse('a=c');
+//   assert.deepEqual(obj, { a: 'c' });
 });
 
-socket.on("newMwssage", (newMessage) => {
-  console.log(`${newMessage}`);
-  const tableMessages = document.getElementById("tableMessages");
-  const newRowMessages = tableMessages.insertRow();
-  const messages = newRowMessages.insertCell();
-  messages.textContent = newMessage;
+socket.on("newMessage", (newMessage) => {
+  const message = JSON.parse(newMessage);
+  console.log(`${message.message}`);
+    const tableMessages = document.getElementById("tableMessages");
+    const newRowMessages = tableMessages.insertRow();
+    const messages = newRowMessages.insertCell();
+    messages.textContent = message.message;
+});
+
+btnSubmitMessage.addEventListener("click", (e) => {
+  e.preventDefault();
+  const newMessage = getMessage();
+  //console.log(newMessage);
+  socket.emit("newMessage", JSON.stringify(newMessage));
 });
 
 btnSubmitUser.addEventListener("click", (e) => {
-  e.preventDefault();
-  const user = getUser();
-  socket.emit("newUser", JSON.stringify(user));
-});
-// Envio nuevo producto al backend
-btnSubmitMessages.addEventListener("click", (e) => {
-  //submitForm.addEventListener("btnSubmitMessages", (e) => {
-  e.preventDefault();
-  const newMessage = getMessage();
-  console.log(newMessage);
-  socket.emit("newMessage", newMessage);
-});
+    console.log(e)
+    e.preventDefault();
+    const user = getUser();
+    socket.emit("newUser", JSON.stringify(user));
+  });
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+

@@ -8,7 +8,7 @@ const { ChatManager } = require("../dao/chatManagerDb")
 const ioFn = (httpServer) => {
   const io = new Server(httpServer);
   const productManager = new ProductManager(io);
-  const chatManager = new ChatManager
+  const chatManager = new ChatManager(io);
   // io.on("connection")  Escucha si hay una nueva conexion. Se establecen la conexiones io con el servidor
   io.on("connection", (socket) => {
     console.log("Nuevo cliente conectado");
@@ -44,9 +44,10 @@ const ioFn = (httpServer) => {
     });
 
     socket.on("newMessage", async (data) => {
-      const email = data.email;
-      const message = data.messages;
-      console.log({ email, message });
+      const newMessage = JSON.parse(data)
+      console.log(newMessage);
+      chatManager.postUserLogin(newMessage);
+      //socket.emit("newMessage",JSON.stringify(newMessage)) // Si lo hago desde aca no funciona para enc¿viarlo a todos los sockets
     });
   });
 

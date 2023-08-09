@@ -1,4 +1,4 @@
-<div class="mx-3">
+<div class="m-3">
   <h5>View Chat</h5>
   <hr />
   <div class="row d-flex">
@@ -11,12 +11,12 @@
             name="message"
             rows="3"
           ></textarea>
-          <button type="submit" class="btn btn-primary mt-2" id="submitMessages">Enviar mensaje</button>
+          <button type="submit" class="btn btn-primary mt-2" id="submitMessage">Enviar mensaje</button>
         <div>
       </form>
     </div>
     <div class="col-12 mt-3">
-      <table class="table table-sm" id="tableUsers">
+      <table class="table table-sm" id="tableMessages">
         <thead>
           <tr>
             <th scope="col">Mensajes</th>
@@ -42,8 +42,7 @@
 como esto ejecuta el servidor este ya establece la comunicacion cada vez que se actualiza la paguina -->
 <script src="/socket.io/socket.io.js"></script>
 
-<!-- Aca le paso mi js publico -->
-<script src="/js/chatWebsocketsDB.js"></script>
+
 
 <!-- bootstrap -->
 <script
@@ -54,3 +53,4 @@ como esto ejecuta el servidor este ya establece la comunicacion cada vez que se 
 
 <!-- sweetalert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
