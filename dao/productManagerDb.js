@@ -1,7 +1,7 @@
 //const fs = require("fs");
 const productModel = require("../models/productModel");
 
-class ProductManager {
+class ProductManagerDb {
   constructor(io) {
     this.io = io;
   }
@@ -62,8 +62,8 @@ class ProductManager {
         this.io.emit("error",JSON.stringify({ error: 400, data:`El producto con id ${id} no existe`}));
         return
       }
-      console.log(`El producto con id ${id} se elimino correctamente`);
-      this.io.emit("deleteProduct",JSON.stringify({ error: 200, data:`El producto con id ${id} se elimino correctamente`}));
+      console.log(`El producto se elimino correctamente`);
+      this.io.emit("deleteProduct",JSON.stringify({ error: 200, data:`El producto se elimino correctamente`}));
       return
     } catch (e) {
       console.log("Erro al eliminar el producto");
@@ -158,4 +158,4 @@ class ProductManager {
   }
 }
 
-module.exports = { ProductManager };
+module.exports = { ProductManagerDb };

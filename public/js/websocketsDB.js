@@ -48,7 +48,7 @@ const limpiarFormulario = () => {
   categoryInput.value = "";
   stockInput.value = "";
   thumbnailInput.value = "";
-}
+};
 
 //Editar producto
 const buttonFn = () => {
@@ -64,7 +64,7 @@ const buttonFn = () => {
       socket.emit("getProductById", JSON.stringify(editProduct));
       socket.on("getProductById", async (res) => {
         const getId = JSON.parse(res);
-        const data = getId.data
+        const data = getId.data;
         idInput.value = data._id;
         titleInput.value = data.title;
         descriptionInput.value = data.description;
@@ -83,7 +83,7 @@ const buttonFn = () => {
     deleteBtn[i].onclick = async function () {
       var pid = this.value;
       console.log(pid);
-      socket.emit("deleteProduct",pid)
+      socket.emit("deleteProduct", pid);
     };
   }
 };
@@ -110,7 +110,7 @@ socket.on("newProduct", (data) => {
   const product = JSON.parse(data);
   const table = document.getElementById("tableProducts");
   const newRow = table.insertRow();
-  const id = newRow.insertCell();
+  //const id = newRow.insertCell();
   const title = newRow.insertCell();
   const description = newRow.insertCell();
   const price = newRow.insertCell();
@@ -120,7 +120,7 @@ socket.on("newProduct", (data) => {
   const category = newRow.insertCell();
   const cellEdit = newRow.insertCell();
   const cellDelete = newRow.insertCell();
-  id.textContent = product._id;
+  //id.textContent = product._id;
   title.textContent = product.title;
   description.textContent = product.description;
   price.textContent = product.price;
@@ -142,7 +142,7 @@ socket.on("newProduct", (data) => {
   Swal.fire({
     title: `Producto con codigo ${product.code} agregado correctamente`,
     icon: "success", // succes , warning , info , question
-    timer: 3000,
+    timer: 2000,
     timerProgressBar: true,
   });
   limpiarFormulario();
@@ -157,12 +157,12 @@ btnUpdate.addEventListener("click", (e) => {
 });
 
 socket.on("editProduct", (resp) => {
-  const prod = JSON.parse(resp)
-  console.log(prod.data)
+  const prod = JSON.parse(resp);
+  console.log(prod.data);
   Swal.fire({
     title: `${prod.data}`,
     icon: "success", // succes , warning , info , question
-    timer: 3000,
+    timer: 2000,
     timerProgressBar: true,
   });
   idInput.value = "";
@@ -173,17 +173,23 @@ socket.on("editProduct", (resp) => {
   categoryInput.value = "";
   stockInput.value = "";
   thumbnailInput.value = "";
+  setTimeout(()=>{
+    window.location.href = "http://localhost:8080/realTimeProducts";
+  },2000) 
 });
 
 socket.on("deleteProduct", (resp) => {
-  const prod = JSON.parse(resp)
-  console.log(prod.data)
+  const prod = JSON.parse(resp);
+  console.log(prod.data);
   Swal.fire({
     title: `${prod.data}`,
     icon: "success", // succes , warning , info , question
-    timer: 3000,
+    timer: 2000,
     timerProgressBar: true,
   });
+  setTimeout(()=>{
+    window.location.href = "http://localhost:8080/realTimeProducts";
+  },2000)
 });
 
 // Cartel de error

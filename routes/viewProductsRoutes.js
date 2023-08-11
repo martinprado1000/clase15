@@ -1,8 +1,8 @@
 const { Router } = require ("express")
 
-const viewRoutesFn = ((io)=>{
+const viewProductsRoutesFn = ((io)=>{
     
-    const pagesFn = require("../controllers/viewControllers")
+    const pagesFn = require("../controllers/productsViewControllers")
 
     const {home, homeById, realTimeProducts, realTimeProductById, postRealTimeProducts, updateRealTimeProducts, deleteRealTimeProducts } = pagesFn(io)
     
@@ -27,5 +27,5 @@ const viewRoutesFn = ((io)=>{
 })
 
 
-module.exports = viewRoutesFn ;
+module.exports = viewProductsRoutesFn ;
 

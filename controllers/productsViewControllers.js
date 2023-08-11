@@ -1,10 +1,10 @@
 //const { ProductManager } = require("../dao/productManager");
-const { ProductManager } = require("../dao/productManagerDb");
+const { ProductManagerDb } = require("../dao/ProductManagerDb");
 
 const pagesFn = (io) => {
   //instacio el manager
   //const manager = new ProductManager("db/products.json", io);
-  const manager = new ProductManager(io);
+  const manager = new ProductManagerDb(io);
 
   //get Products
   const home = async (req, res) => {

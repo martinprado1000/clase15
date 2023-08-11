@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
 require("./connection");
-//const productsRoutes = require ("./routes/productsRoutes.js")
-const cartsRoutes = require ("./routes/cartsRoutes.js")
-const viewRoutesFn = require ("./routes/viewRoutes.js")
-const viewChatRoutesFn = require ("./routes/viewChatRoutes.js")
 const handlebars = require("express-handlebars");
-const ioFn = require("./utils/io.js") // Requiero la funcion que inicia el server io.
+const ioFn = require("./utils/io.js")
+
+const viewCartsRoutesFn = require ("./routes/viewCartsRoutes.js")
+const viewProductsRoutesFn = require ("./routes/viewProductsRoutes.js")
+const viewChatRoutesFn = require ("./routes/viewChatRoutes.js")
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", "./views");
@@ -22,12 +22,15 @@ const httpServer = app.listen(PORT, () => console.log(`Servidor express corriend
 
 const io = ioFn(httpServer) // Ejecuto la funcion que crea el server socket.io y le passamos el server httpServer como parametro.
 //io.on("newProduct",((data)=>console.log(data)))
-const viewRoutes = viewRoutesFn(io)
-app.use("/",viewRoutes);
-//app.use("/",productsRoutes);
-app.use("/",cartsRoutes);
+const viewProductsRoutes = viewProductsRoutesFn(io)
 const viewChatRoutes = viewChatRoutesFn(io)
+const viewCartsRoutes = viewCartsRoutesFn(io)
+
+//app.use("/",productsRoutes);
+app.use("/",viewProductsRoutes);
 app.use("/",viewChatRoutes);
+app.use("/",viewCartsRoutes);
+
 
 //Ruta incorrecta
 app.use((req, res) => {

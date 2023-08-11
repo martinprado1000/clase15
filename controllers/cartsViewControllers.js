@@ -1,23 +1,39 @@
 //const { CartManager } = require("../dao/cartManager");
 const { CartManager } = require("../dao/cartManagerDb");
+const { ProductManagerDb } = require("../dao/ProductManagerDb");
 
 const pagesFn = (io) => {
   //instacio el Cartmanager
   //const manager = new CartManager("db/carts.json");
-  const manager = new CartManager(io);
+  
+  const products = (async() => {
+    const managerProduct = new ProductManagerDb(io);
+    const products = await managerProduct.getProducts();
+    //console.log(products);
+  });
+  products();
+
+  const manager = new CartManager(io,products);
 
   //get Carts
   const carts = async (req, res) => {
     try {
+      console.log("hola");
       const limitInt = parseInt(req.query.limit);
-      //console.log(limitInt);
+      console.log(limitInt);
       const data = await manager.getCarts();
-      if (!limitInt) res.json(data);
-      else {
+      console.log(data);
+      if (!limitInt) {
+        console.log("respondemos sin limite");
+        //console.log(data)
+        res.setHeader("Content-Type", "application/json");
+        res.json({ data });
+      } else {
         //const dataLimit = data.slice(0, limitInt);
         const dataLimit = await manager.getCartsLimit(limitInt);
         res.json(dataLimit);
       }
+      return;
     } catch (e) {
       console.log(e);
       return { Error: "Algo salio mal con la consulta" };

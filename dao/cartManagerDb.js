@@ -2,16 +2,10 @@ const fs = require("fs");
 const productModel = require("../models/productModel");
 const cartModel = require("../models/cartModel");
 
-const { ProductManager } = require("./productManagerDb");
-
-// const productsPromise = async () => {
-//   const pManager = new ProductManager();
-//   const prod = await pManager.getProducts();
-//   return prod;
-// };
-
 class CartManager {
-  constructor() {
+  constructor(io,products) {
+    this.io = io;
+    this.products = products;
     // this.path = path;
     // const ex = async () => {
     //   try {
@@ -30,7 +24,9 @@ class CartManager {
     try {
       //let carts = await fs.promises.readFile(this.path, "utf-8");
       //const cartsObj = await JSON.parse(carts);
-      return cartModel.find();
+      const carts = await cartModel.find();
+      //console.log(carts)
+      return carts;
     } catch (e) {
       console.log("Error al leer el archivo Carts");
       return {
@@ -60,7 +56,7 @@ class CartManager {
         return { status: 400, respuesta: "Debe enviar un ID valido" };
       }
       let cartId = await cartModel.findById(id);
-      console.log(cartId)
+      console.log(cartId);
       if (cartId)
         return {
           status: 200,
@@ -110,26 +106,33 @@ class CartManager {
 
   async addCart(data) {
     const cartEmail = data.email; // Nombre del carrito a agregar
+    const cartProducts = data.products;
+    console.log(cartProducts);
+    //console.log(this.products())
+
     try {
-      const cartExist = await cartModel.findOne({ "email" : cartEmail });
-      if (cartExist != null) { // Si el newCart no existe
+      const cartExist = await cartModel.findOne({ email: cartEmail });
+      //console.log(cartExist)
+      if (cartExist != null) {
+        // Si el newCart no existe
         return {
           status: 400,
           respuesta: `El carrito ${cartEmail} ya existe`,
         };
       }
 
-      let productExist = await cartModel.find({},{products:1});
+      let productExist = await cartModel.find({}, { products: 1 });
       const productExistObj = productExist.map((p) => p.toObject());
-      console.log(productExistObj)
-      const aa = productExist.map((e)=>{ return e.products[0] })
-      console.log(aa)
-      const bb = aa.map((e)=>{ return e[0].productCode })
+      //console.log(productExistObj)
+
+      //const aa = productExist.map((e)=>{ return e.products[0] })
+      //console.log(aa)
+      //const bb = aa.map((e)=>{ return e[0].productCode })
       // const productExist2 = productExistObj.map((pro)=> {return pro.products[0] } )
       // console.log(productExist2)
       //console.log(productExist2[0].productCode)
       //productExist2.map((prod)=>  console.log(prod.productCode) )
-     
+
       // Agrego el carrito a la db
       const newCart = await cartModel.create(data);
       //const newCartId = newCart._id.toHexString(); // paso _id a numero
@@ -139,9 +142,6 @@ class CartManager {
           respuesta: `El carrito ${cartEmail} se agrego correctamente pero no ingreso ningún producto en el carrito`,
         };
       }
-
-      
-
 
       return {
         status: 201,
